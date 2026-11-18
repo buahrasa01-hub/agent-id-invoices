@@ -1,0 +1,22 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+# BSC runs Shanghai-equivalent EVM rules for our purposes. Never raise this
+# to "cancun", or contracts that pass tests may fail on chain.
+solc_version = "0.8.24"
+evm_version = "shanghai"
+optimizer = true
+optimizer_runs = 200
+remappings = [
+  "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+  "forge-std/=lib/forge-std/src/",
+]
+
+[rpc_endpoints]
+bsc = "https://bsc-dataseed1.binance.org"
+bsc_testnet = "https://data-seed-prebsc-1-s1.binance.org:8545"
+local = "http://127.0.0.1:8545"
+
+[fmt]
+line_length = 110
