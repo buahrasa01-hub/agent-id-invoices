@@ -43,7 +43,7 @@ expire after `dueAt` (0 = no expiry).
 
 | Network | Invoice | Agent ID | Block |
 |---|---|---|---|
-| BSC testnet (97) | *pending faucet* | MockAgentID (testnet only) | — |
+| BSC testnet (97) | [`0x8FF9AecB2e03Ccc72a35D686CfA723D6f449dEc1`](https://testnet.bscscan.com/address/0x8FF9AecB2e03Ccc72a35D686CfA723D6f449dEc1) | [`0x7B6943335e7507A00c7C2903ace22e2E7f49B19F`](https://testnet.bscscan.com/address/0x7B6943335e7507A00c7C2903ace22e2E7f49B19F) (MockAgentID, testnet only) | 143463937 |
 | BSC mainnet (56) | *pending funding decision* | [`0x60B9262456dE011F7d15a54cdd8c48baaa8b022f`](https://bscscan.com/address/0x60B9262456dE011F7d15a54cdd8c48baaa8b022f) (SPACE ID Agent ID) | — |
 
 - `contracts/src/AgentIDInvoice.sol` — the invoice contract.
@@ -52,6 +52,23 @@ expire after `dueAt` (0 = no expiry).
   is not deployed. **Never on mainnet**: the deploy script refuses to use the
   mock on chain 56 and refuses the real Agent ID anywhere else.
 - `contracts/test/AgentIDInvoice.t.sol` — 22 unit tests (incl. fuzz), all passing.
+
+### Deployed on BSC testnet (18 Nov 2026) — live
+
+- Invoice [`0x8FF9AecB2e03Ccc72a35D686CfA723D6f449dEc1`](https://testnet.bscscan.com/address/0x8FF9AecB2e03Ccc72a35D686CfA723D6f449dEc1),
+  deploy tx [`0xfe07308b…`](https://testnet.bscscan.com/tx/0xfe07308b9c17499d327df3a0ffc7a6df304c2725cad1df0f16fa3f27c7abb3bb),
+  block 143463937, status success.
+- MockAgentID [`0x7B6943335e7507A00c7C2903ace22e2E7f49B19F`](https://testnet.bscscan.com/address/0x7B6943335e7507A00c7C2903ace22e2E7f49B19F),
+  deploy tx [`0xb9c5fbef…`](https://testnet.bscscan.com/tx/0xb9c5fbef74a9cc3219fd681fac67a892fff1ee1a729adbc4d351f6e25e7f032e).
+  Source verified on Sourcify: **exact match** (creation + runtime).
+- E2E on the real testnet (18 Nov): create invoice 0.01 BNB — success
+  ([`0xf984ddc6…`](https://testnet.bscscan.com/tx/0xf984ddc6a01daff22c45d951a5f6ee8919023606bd085a23f507eb5c163781a5),
+  block 143464186); pay 0.009 BNB — reverted `WrongAmount(0.01, 0.009)`;
+  pay exact 0.01 BNB — success
+  ([`0x8b581218…`](https://testnet.bscscan.com/tx/0x8b581218c583d4845ed86a152b5236d0ccde3efe0a0abf2357a69a2572838ddf),
+  block 143464246), `isPaid` true, contract balance 0.
+- Web app live: https://agent-id-invoices.vercel.app/
+  (Vercel project `prj_0jiqIbSCa7axnkeVGYiogepT6U8h`, deployment READY).
 
 ### Verified on a local fork of BSC testnet (18 Nov 2026)
 
@@ -71,8 +88,8 @@ covers the deploy plus a few test transactions with margin.
 ## Web app
 
 Next.js app in `web/` (standalone, no workspace dependencies): create an
-invoice, pay it, view receipts, browse activity. Live site: *pending testnet
-deploy*.
+invoice, pay it, view receipts, browse activity. Live site:
+**https://agent-id-invoices.vercel.app/** (BSC testnet contract above).
 
 ```bash
 cd web && npm install && npm run build   # typecheck + build
